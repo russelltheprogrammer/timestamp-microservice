@@ -25,10 +25,13 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-app.get("/api/:date?", (req, res) {
-  res.json({
-
-  })
+app.get("/api/:date?", (req, res) => {
+  //convert to Unix
+  let dateToUnix = Date.parse(req).getTime()/1000;
+  //convert to Utc
+  let dateToUtc = new Date(req * 1000);
+  res.json({ unix: dateToUnix });
+  res.json({ utc: dateToUtc});
 });
 
  
