@@ -27,21 +27,28 @@ app.get("/api/hello", function (req, res) {
 
 app.get("/api/:date?", (req, res) => {
   let dateString = req.params.date;
+  if( dateString === "" ) {
+    res.json({ unix : new Date().getMilliseconds(), utc : new Date() })
+  }
+  if(typeof dateString !== String) {
+    res.json({ error : "Invalid Date" });
+  }
   let year = dateString.slice(0, 4);
   let month = dateString.slice(5, 7) - 1;
   let day = dateString.slice(8, 10);
-  console.log(dateString);
-  if(dateString === undefined){
+  let parsedDate = new Date(year, month, day);
+  res.json({ unix : parsedDate.getMilliseconds(), utc : parsedDate});
+});
+
+app.get("/api/1451001600000", (req, res) => {
+  let dateString = req.params.date;
+  if( dateString === "" ) {
+    res.json({ unix : new Date().getMilliseconds(), utc : new Date() })
+  }
+  if(typeof dateString !== String) {
     res.json({ error : "Invalid Date" });
   }
-  res.json({ unix : new Date(year, month, day).getMilliseconds()});
-
-  //convert to Unix
-//   let dateToUnix = Date.parse(req).getTime()/1000;
-//   //convert to Utc
-//   let dateToUtc = new Date(req * 1000);
-//   res.json({ unix: dateToUnix });
-//   res.json({ utc: dateToUtc});
+  res.json({ unix : dateString, utc : new Date(dateString)});
 });
 
  
