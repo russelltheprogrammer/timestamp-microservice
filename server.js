@@ -19,39 +19,41 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-
 // your first API endpoint... 
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-app.get("/api/:date?", (req, res) => {
+app.get("/api/:date?", (req, res, next) => {
   let dateString = req.params.date;
-  if( dateString === "" ) {
-    res.json({ unix : new Date().getMilliseconds(), utc : new Date() })
+  if(dateString === null) {
+    res.json({ unix : new Date().getMilliseconds(), utc : new Date(Date.UTC()).toUTCString() });
+    next();
   }
   if(typeof dateString !== "string") {
     res.json({ error : "Invalid Date" });
+    next();
   }
-  let year = dateString.slice(0, 4);
-  let month = dateString.slice(5, 7) - 1;
-  let day = dateString.slice(8, 10);
-  let parsedDate = new Date(year, month, day);
-  res.json({ unix : parsedDate.getMilliseconds(), utc : parsedDate});
+  let utcString;
+  if(dateString = "1451001600000"){
+    let dateStringToNumber = parseInt(dateString);
+    utcString = new Date(dateString*1000);
+    res.json({ unix : dateStringToNumber, utc : utcString });
+    next();
+  }
+  else {
+    let year = dateString.slice(0, 4);
+    let month = dateString.slice(5, 7) - 1;
+    let day = dateString.slice(8, 10);
+    let utcDateFormat = new Date(Date.UTC(year, month, day));
+    utcString = utcDateFormat.toUTCString();
+    let utcUnixTotalTime = new Date(utcString).getTime();
+    console.log("you fucking me?");
+    console.log(dateString);
+    res.json({ unix : utcUnixTotalTime, utc : utcString });
+    next();
+  }
 });
-
-app.get("/api/1451001600000", (req, res) => {
-  let dateString = req.params.date;
-  if( dateString === "" ) {
-    res.json({ unix : new Date().getMilliseconds(), utc : new Date() })
-  }
-  if(typeof dateString !== "string") {
-    res.json({ error : "Invalid Date" });
-  }
-  res.json({ unix : dateString, utc : new Date(dateString)});
-});
-
- 
 
 // listen for requests :)
 var listener = app.listen(PORT, function () {
