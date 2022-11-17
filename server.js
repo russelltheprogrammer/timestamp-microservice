@@ -30,7 +30,8 @@ app.get("/api/:date?", (req, res) => {
   if( dateString === "" ) {
     res.json({ unix : new Date().getMilliseconds(), utc : new Date() })
   }
-  if(typeof dateString !== String) {
+  console.log(typeof dateString, String);
+  if(typeof dateString !== "string") {
     res.json({ error : "Invalid Date" });
   }
   let year = dateString.slice(0, 4);
@@ -45,7 +46,7 @@ app.get("/api/1451001600000", (req, res) => {
   if( dateString === "" ) {
     res.json({ unix : new Date().getMilliseconds(), utc : new Date() })
   }
-  if(typeof dateString !== String) {
+  if(typeof dateString !== "string") {
     res.json({ error : "Invalid Date" });
   }
   res.json({ unix : dateString, utc : new Date(dateString)});
