@@ -30,7 +30,6 @@ app.get("/api/:date?", (req, res) => {
   if( dateString === "" ) {
     res.json({ unix : new Date().getMilliseconds(), utc : new Date() })
   }
-  console.log(typeof dateString, String);
   if(typeof dateString !== "string") {
     res.json({ error : "Invalid Date" });
   }
