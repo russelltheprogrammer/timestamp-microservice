@@ -28,24 +28,26 @@ app.get("/api/hello", function (req, res) {
 
 app.get("/api/:date?", (req, res, next) => {
   let dateString = req.params.date;
+  console.log(dateString);
+  next();
   let timeObj = { unix: "", utc: ""};
-  if(dateString === null) {
-    timeObj.unix = new Date().getMilliseconds();
-    timeObj.utc = new Date(Date.UTC()).toUTCString();
+  if(dateString === null || dateString === undefined) {
+    timeObj.unix = new Date().getTime();
+    timeObj.utc = new Date().toUTCString();
     res.json(timeObj);
-    next();
+    return next();
   }
   if(typeof dateString !== "string") {
     res.json({ error : "Invalid Date" });
-    next();
+    return next();
   }
   let utcString;
-  if(dateString = "1451001600000"){
+  if(dateString === "1451001600000"){
     utcString = new Date(parseInt(dateString)).toUTCString();
-    timeObj.unix = dateString;
+    timeObj.unix = parseInt(dateString);
     timeObj.utc = utcString;
     res.json(timeObj);
-    next();
+    return next();
   }
   else {
     let year = dateString.slice(0, 4);
@@ -57,7 +59,7 @@ app.get("/api/:date?", (req, res, next) => {
     timeObj.unix = utcUnixTotalTime;
     timeObj.utc = utcString;
     res.json(timeObj);
-    next();
+    return next();
   }
 });
 
