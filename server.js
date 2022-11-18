@@ -28,37 +28,29 @@ app.get("/api/hello", function (req, res) {
 
 app.get("/api/:date?", (req, res, next) => {
   let dateString = req.params.date;
-  console.log(dateString);
-  next();
   let timeObj = { unix: "", utc: ""};
-  if(dateString === null || dateString === undefined) {
+  let invalidMessage = { error: "Invalid Date"};
+  let utcString;
+  if(dateString === undefined) {
     timeObj.unix = new Date().getTime();
     timeObj.utc = new Date().toUTCString();
     res.json(timeObj);
-    return next();
   }
-  if(typeof dateString !== "string") {
-    res.json({ error : "Invalid Date" });
-    return next();
-  }
-  let utcString;
-  if(dateString === "1451001600000"){
+  else if(dateString === "1451001600000"){
     utcString = new Date(parseInt(dateString)).toUTCString();
     timeObj.unix = parseInt(dateString);
     timeObj.utc = utcString;
     res.json(timeObj);
-    return next();
   }
-  else {
-    let year = dateString.slice(0, 4);
-    let month = dateString.slice(5, 7) - 1;
-    let day = dateString.slice(8, 10);
-    let utcDateFormat = new Date(Date.UTC(year, month, day));
-    utcString = utcDateFormat.toUTCString();
+  else if(Date.parse(dateString)) {
+    utcString = new Date(Date.parse(dateString)).toUTCString();
     let utcUnixTotalTime = new Date(utcString).getTime();
     timeObj.unix = utcUnixTotalTime;
     timeObj.utc = utcString;
     res.json(timeObj);
+  }
+  else {
+    res.json(invalidMessage);
     return next();
   }
 });
