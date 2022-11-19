@@ -1,5 +1,5 @@
 
-### Link to project will be listed once it is completed.
+### Part of [freeCodeCamp.org](https://www.freecodecamp.org/) Back End Development and APIs Certificate
 
 Note: This project was built in progress for the <strong>freeCodeCamp Back End Development and APIs Projects Certificate</strong>. This was for <strong>project #1</strong>. This is a clone of the freeCodeCamp boilerplate repo from Github. The clone only included the starting packages and initial code. I had to build the actually API by myself, following the user stories and technical requirements requested by freeCodeCamp.
 
