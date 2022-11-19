@@ -43,7 +43,11 @@ I cloned the freeCodeCamp repo from Github.
 
 ## Key Concepts Used
 
-To be filled out later.
+- HTTPS Requests
+- Building an API
+- Express.js
+- Node.js
+- Javascript
 
 ## Source Code?
 
